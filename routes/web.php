@@ -15,4 +15,4 @@
 //    return view('dashboard');
 //});
 
-Route::get('/',"DashboardController@indexAction");
+Route::get('/',"DashboardController@index");
