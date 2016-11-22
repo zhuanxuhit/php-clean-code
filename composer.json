@@ -1,0 +1,15 @@
+{
+    "name": "zhuanxu/php-clean-code",
+    "authors": [
+        {
+            "name": "zhuanxuhit",
+            "email": "893051481@qq.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "CleanPhp\\Invoicer\\" : "src"
+        }
+    },
+    "require": {}
+}
