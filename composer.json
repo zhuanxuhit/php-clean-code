@@ -11,5 +11,11 @@
             "CleanPhp\\Invoicer\\" : "src"
         }
     },
-    "require": {}
+    "require": {},
+    "require-dev": {
+        "peridot-php/peridot": "^1.18",
+        "peridot-php/leo": "^1.6",
+        "peridot-php/peridot-prophecy-plugin": "^1.1",
+        "peridot-php/peridot-watcher-plugin": "^1.3"
+    }
 }
