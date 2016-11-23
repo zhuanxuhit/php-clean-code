@@ -7,7 +7,7 @@ class Invoice extends AbstractEntity {
     protected $total;
 
     /**
-     * @return mixed
+     * @return Order
      */
     public function getOrder()
     {
@@ -26,7 +26,7 @@ class Invoice extends AbstractEntity {
     }
 
     /**
-     * @return mixed
+     * @return \DateTime
      */
     public function getInvoiceDate()
     {

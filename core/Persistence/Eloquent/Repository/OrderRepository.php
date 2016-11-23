@@ -1,10 +1,16 @@
 <?php namespace CleanPhp\Invoicer\Persistence\Eloquent\Repository;
 
+use CleanPhp\Invoicer\Domain\Entity\Invoice;
 use CleanPhp\Invoicer\Domain\Entity\Order;
-use CleanPhp\Invoicer\Domain\Repository\CustomerRepositoryInterface;
+//use CleanPhp\Invoicer\Domain\Repository\CustomerRepositoryInterface;
 use CleanPhp\Invoicer\Domain\Repository\OrderRepositoryInterface;
 use Illuminate\Database\DatabaseManager;
+use Illuminate\Support\Collection;
 
+/**
+ * Class OrderRepository
+ * @package CleanPhp\Invoicer\Persistence\Eloquent\Repository
+ */
 class OrderRepository extends AbstractEloquentRepository implements OrderRepositoryInterface  {
 
     protected $table = 'orders';
@@ -29,9 +35,22 @@ class OrderRepository extends AbstractEloquentRepository implements OrderReposit
         return Order::class;
     }
 
+    /**
+     * @return array
+     */
     public function getUninvoicedOrders()
     {
-        // TODO: Implement getUninvoicedOrders() method.
+        $entity = $this->getModel();
+        //        $table = class_basename($entity);
+        /** @var Collection $rows */
+        $rows = $this->db->connection()
+            ->table('orders')
+            ->leftJoin('invoices','orders.id','=','invoices.order_id')
+            ->select('orders.*')
+            ->whereNull('invoices.id')
+            ->get();
+//        dd($rows);
+        return $this->fromRaws( $rows, $entity );
     }
 
     /**
@@ -42,6 +61,7 @@ class OrderRepository extends AbstractEloquentRepository implements OrderReposit
     {
         $customer = $this->customerRepository->getById($object->customer_id);
         $entity->setCustomer($customer)->setOrderNumber($object->order_number)
-            ->setTotal($object->total)->setDescription($object->description);
+            ->setTotal($object->total)->setDescription($object->description)
+            ->setId($object->id);
     }
 }

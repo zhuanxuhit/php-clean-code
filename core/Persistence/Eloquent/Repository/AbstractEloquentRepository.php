@@ -10,7 +10,7 @@ abstract class AbstractEloquentRepository implements RepositoryInterface {
     /**
      * @var \Illuminate\Database\DatabaseManager
      */
-    private $db;
+    protected $db;
 
     protected $table;
 
@@ -43,14 +43,7 @@ abstract class AbstractEloquentRepository implements RepositoryInterface {
 //        $table = class_basename($entity);
         /** @var Collection $rows */
         $rows = $this->db->connection()->table($this->table)->get();
-
-        $entities = [];
-        foreach ($rows as $row){
-            $object = new $entity;
-            $this->hydrate($row,$object);
-            $entities[] = $object;
-        }
-        return $entities;
+        return $this->fromRaws( $rows, $entity );
     }
 
     /**
@@ -125,4 +118,21 @@ abstract class AbstractEloquentRepository implements RepositoryInterface {
     }
 
     abstract function getModel();
+
+    /**
+     * @param $rows
+     * @param $entity
+     *
+     * @return array
+     */
+    protected function fromRaws( $rows, $entity ):array
+    {
+        $entities = [];
+        foreach ( $rows as $row ) {
+            $object = new $entity;
+            $this->hydrate( $row, $object );
+            $entities[] = $object;
+        }
+        return $entities;
+}
 }
