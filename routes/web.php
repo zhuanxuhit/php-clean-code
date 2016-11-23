@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,5 +13,16 @@
 //Route::get('/', function () {
 //    return view('dashboard');
 //});
+Route::get( '/', "DashboardController@index" );
+Route::get( '/customers', 'CustomersController@index' );
+Route::get( '/customers/new', 'CustomersController@edit' );
+Route::post('/customers/new','CustomersController@store');
 
-Route::get('/',"DashboardController@index");
+Route::get( '/customers/edit/{id}', 'CustomersController@edit' );
+Route::post('/customers/edit/{id}','CustomersController@store');
+//Route::match( [ 'get', 'post' ],
+//              '/customers/new',
+//              'CustomersController@newOrEdit' );
+//Route::match( [ 'get', 'post' ],
+//              '/customers/edit/{id}',
+//              'CustomersController@newOrEdit' );
