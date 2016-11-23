@@ -15,13 +15,13 @@
             <label for="name">Name:</label>
             <input type="text" class="form-control" name="name" id="name" placeholder="Enter Name"
                    value="<?= $customer->getName() ?>">
-            @include('validation-errors', ['name' => 'name', 'errors' => isset($error) ? $error : []])
+            @include('validation-errors', ['name' => 'name', 'errors' => isset($errors) ? $errors : []])
         </div>
         <div class="form-group">
             <label for="email">Email:</label>
             <input type="text" class="form-control" name="email" id="email" placeholder="Enter Email"
                    value="<?= $customer->getEmail() ?>">
-            @include('validation-errors', ['name' => 'email', 'errors' => isset($error) ? $error : []])
+            @include('validation-errors', ['name' => 'email', 'errors' => isset($errors) ? $errors : []])
         </div>
         <button type="submit" class="btn btn-primary">Save</button>
     </form>

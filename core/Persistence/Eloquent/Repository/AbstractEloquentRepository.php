@@ -66,8 +66,9 @@ abstract class AbstractEloquentRepository implements RepositoryInterface {
         }
     }
 
-    protected function isGetMethod($method) {
-
+    protected function camel_case_replace( $str )
+    {
+        return strtolower(preg_replace('/((?<=[a-z])(?=[A-Z]))/', '_', $str));
     }
 
     protected function extract( $entity )
@@ -76,7 +77,13 @@ abstract class AbstractEloquentRepository implements RepositoryInterface {
         $methods =  get_class_methods($entity);
         foreach ($methods as $method){
             if ( starts_with($method,'get') && $method != 'getId') {
-                $values[lcfirst(substr($method,3))] = $entity->{$method}();
+                $value = $entity->{$method}();
+                $key  = $this->camel_case_replace(substr($method,3));
+                if (is_object($value)){
+                    $values[$key.'_id'] = call_user_func([$value,'getId']);
+                }else {
+                    $values[$key] = $value;
+                }
             }
         }
         return $values;
